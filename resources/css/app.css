@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.bg-purple { background-color: #6f42c1; }
+.bg-teal { background-color: #20c997; }
+.bg-orange { background-color: #fd7e14; }
