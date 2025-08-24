@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NumberController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InvoiceController;
 
 /*
   |--------------------------------------------------------------------------
@@ -33,8 +34,9 @@ Route::middleware('auth')->group(function () {
 //    numbers recources
     Route::resource('numbers', NumberController::class);
     Route::post('/numbers/assign', [NumberController::class, 'assignStaff'])->name('numbers.assign');
-
     Route::resource('staffs', StaffController::class);
+    Route::resource('invoices', InvoiceController::class);
+
 });
 
 require __DIR__ . '/auth.php';
