@@ -37,7 +37,7 @@
                     <td>{{ $invoice->amount }}</td>
                     <td>
                         @if($invoice->file)
-                        <a href="{{ asset('storage/'.$invoice->file) }}" target="_blank">View</a>
+                        <a href="{{ asset($invoice->file) }}" target="_blank">View</a>
                         @endif
                     </td>
                     <td>{{ $invoice->remarks }}</td>

@@ -20,7 +20,7 @@
             @if($invoice->file)
             <h5 class="mt-2">Invoice File</h5>
             <iframe 
-                src="{{ asset('storage/' . $invoice->file) }}" 
+                src="{{ asset($invoice->file) }}" 
                 width="100%" 
                 height="600px" 
                 style="border:1px solid #ccc; border-radius:5px;">

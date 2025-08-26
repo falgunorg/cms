@@ -23,6 +23,10 @@
                     <x-nav-link :href="route('staffs.index')" :active="request()->routeIs('staffs.index')">
                         {{ __('Staffs') }}
                     </x-nav-link>
+                    
+                    <x-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.index')">
+                        {{ __('Invoices') }}
+                    </x-nav-link>
 
 
                     <div @mouseenter="open = true" @mouseleave="open = false" class="relative align-self-center d-none" x-data="{ open: false }">
@@ -44,6 +48,11 @@
                             <a href="{{ route('staffs.index') }}"
                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 {{ __('Staffs') }}
+                            </a>
+                            
+                            <a href="{{ route('invoices.index') }}"
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                {{ __('Invoices') }}
                             </a>
                         </div>
                     </div>
@@ -110,6 +119,10 @@
             <x-responsive-nav-link :href="route('staffs.index')" :active="request()->routeIs('staffs.index')">
                 {{ __('Staffs') }}
             </x-responsive-nav-link>
+            
+            <x-responsive-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.index')">
+                {{ __('Invoices') }}
+            </x-responsive-nav-link>
 
             <!-- Responsive Dropdown -->
             <div x-data="{ open: false }" class="space-y-1 d-none">
@@ -128,6 +141,9 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('staffs.index')">
                         {{ __('Staffs') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('invoices.index')">
+                        {{ __('Invoices') }}
                     </x-responsive-nav-link>
                 </div>
             </div>

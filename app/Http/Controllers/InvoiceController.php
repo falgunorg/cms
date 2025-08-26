@@ -16,7 +16,15 @@ class InvoiceController extends Controller {
         return view('invoices.create');
     }
 
-    public function store(Request $request) {
+    public function show(Invoice $invoice) {
+        return view('invoices.show', compact('invoice'));
+    }
+
+    public function edit(Invoice $invoice) {
+        return view('invoices.edit', compact('invoice'));
+    }
+
+    public function store_origin(Request $request) {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'file' => 'nullable|mimes:pdf,jpg,jpeg,png',
@@ -33,12 +41,24 @@ class InvoiceController extends Controller {
         return redirect()->route('invoices.index')->with('success', 'Invoice created successfully.');
     }
 
-    public function show(Invoice $invoice) {
-        return view('invoices.show', compact('invoice'));
-    }
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'file' => 'nullable|mimes:pdf,jpg,jpeg,png|max:2048',
+            'amount' => 'required|numeric',
+            'remarks' => 'nullable|string'
+        ]);
 
-    public function edit(Invoice $invoice) {
-        return view('invoices.edit', compact('invoice'));
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('assets/invoices'), $fileName);
+            $validated['file'] = 'assets/invoices/' . $fileName;
+        }
+
+        Invoice::create($validated);
+
+        return redirect()->route('invoices.index')->with('success', 'Invoice created successfully.');
     }
 
     public function update(Request $request, Invoice $invoice) {
@@ -50,10 +70,16 @@ class InvoiceController extends Controller {
         ]);
 
         if ($request->hasFile('file')) {
-            if ($invoice->file && file_exists(storage_path('app/public/' . $invoice->file))) {
-                unlink(storage_path('app/public/' . $invoice->file));
+            // Delete old file if exists
+            if ($invoice->file && file_exists(public_path($invoice->file))) {
+                unlink(public_path($invoice->file));
             }
-            $validated['file'] = $request->file('file')->store('invoices', 'public');
+
+            // Upload new file
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('assets/invoices'), $fileName);
+            $validated['file'] = 'assets/invoices/' . $fileName;
         }
 
         $invoice->update($validated);
@@ -62,9 +88,10 @@ class InvoiceController extends Controller {
     }
 
     public function destroy(Invoice $invoice) {
-        if ($invoice->file && file_exists(storage_path('app/public/' . $invoice->file))) {
-            unlink(storage_path('app/public/' . $invoice->file));
+        if ($invoice->file && file_exists(public_path($invoice->file))) {
+            unlink(public_path($invoice->file));
         }
+
         $invoice->delete();
 
         return redirect()->route('invoices.index')->with('success', 'Invoice deleted successfully.');

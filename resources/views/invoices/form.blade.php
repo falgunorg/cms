@@ -11,7 +11,7 @@
     <label>File</label>
     <input type="file" name="file" class="form-control">
     @if(!empty($invoice->file))
-    <p><a href="{{ asset('storage/'.$invoice->file) }}" target="_blank">Current File</a></p>
+    <p><a href="{{ asset($invoice->file) }}" target="_blank">Current File</a></p>
     @endif
 </div>
 <div class="mb-3">
